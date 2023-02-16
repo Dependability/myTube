@@ -2,11 +2,15 @@ import {useState, useEffect} from 'react';
 import {storage, db} from '../Firebase';
 import {ref, getDownloadURL} from 'firebase/storage';
 import {doc, getDoc} from 'firebase/firestore';
-export default function Thumbnail({thumbnail, ownerID, date, title, vid}) {
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+export default function Thumbnail({thumbnail, ownerID, date, title, vid, views}) {
 
     
-    let [downloadURL, setUrl] = useState('');
-    let [authorName, setName] = useState('');
+    let [downloadURL, setUrl] = useState("");
+    let [authorName, setName] = useState("");
+    let timeString = dayjs().to(dayjs(date));
     useEffect(()=> {
 
         
@@ -24,14 +28,28 @@ export default function Thumbnail({thumbnail, ownerID, date, title, vid}) {
 
     }, [])
 
-    return <>
+    return <div className='video'>
         <a href="/" >
-        
-        <img src={downloadURL} width='192' height='108' alt='thumbnail'/>
+        <div className='imgwrap'>
+        <img src={downloadURL} width='336' height='189' alt='thumbnail'/>
+            <div className='time'>
+                ??:??:??
+            </div>
+        </div>
         </a>
-        <h2>{title}</h2>
-        <p>By: {authorName}</p>
-        <p>Uploaded {date}</p>
+        <div className='info'>
+            <div className='left'>
+            <div className='pfp'></div>
+            </div>
+            <div className='right'>
+            <h2 className='title'>{title}</h2>
+            <p className='author'>{authorName}</p>
+            <p>{views} {views === 1? ' view' : ' views'} • {timeString}</p>
+            </div>
+        </div>
         
-    </>
+        
+        
+        
+    </div>
 }
