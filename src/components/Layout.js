@@ -3,11 +3,14 @@ import ytIcon from '../assets/youtubeicon.png';
 import Icon from '@mdi/react';
 import { mdiMenu, mdiMagnify, mdiVideoPlusOutline,mdiBellOutline,mdiHome,mdiThumbUpOutline,mdiPlayBoxOutline   } from '@mdi/js';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import {db, storage} from '../Firebase';
+import {collection, getDocs} from 'firebase/firestore';
 
-
-function Layout({children}) {
+function Layout({children, overlay, current,pfp}) {
     const navigate = useNavigate();
 
+    console.log(overlay)
     return <>
         <nav className='topBar'>
             <div className='left'>
@@ -30,25 +33,24 @@ function Layout({children}) {
             </div>
             <div className='right'>
                 <Icon path={mdiVideoPlusOutline} size={1.1} className='over' onClick={()=> {navigate('/upload')}}/>
-                <Icon path={mdiBellOutline} size={1.1} className='over'/>
                 <div className='pfp'>
-                
+                    <img src={pfp} alt='' />
                 </div>
             </div>
         </nav>
         <main>
             <aside>
                 <div className='top'>
-                    <div className='aside-but selected'>
-                        <Icon path={mdiHome} size={1.1}></Icon>
+                    <div className={'aside-but ' + (current === 'home' ? 'selected' : '')} onClick={()=> navigate('/')}>
+                        <Icon path={mdiHome} size={1.1} ></Icon>
                         Home
                     </div>
                     <div className='line'></div>
-                    <div className='aside-but'>                  
+                    <div className={'aside-but ' + (current === 'liked' ? 'selected' : '')} onClick={()=> navigate('/liked')}>                  
                         <Icon path={mdiThumbUpOutline} size={1.1} />
                         Liked videos
                     </div>
-                    <div className='aside-but'>
+                    <div className={'aside-but ' + (current === 'videos' ? 'selected' : '')}>
                         <Icon path={mdiPlayBoxOutline} size={1.1} />
                         Your videos
                     </div>

@@ -1,6 +1,7 @@
 import {signOut, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
 import {auth, provider, db} from '../Firebase';
 import {useNavigate} from 'react-router-dom';
+import '../styles/styles.css';
 import {doc, getDoc, setDoc} from 'firebase/firestore';
 
 function SignUp({user}) {
@@ -16,11 +17,13 @@ function SignUp({user}) {
                     navigate('/');
                     return
                 } else {
+                    const photoURL = result.user.photoURL.split('=')[0];
                     setDoc(ref, {
                         
                         displayName: result.user.displayName,
                         subscriptions: [],
-                        subscribers: []
+                        subscribers: [],
+                        photoURL: photoURL
                     })
                 }
             })

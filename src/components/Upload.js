@@ -6,6 +6,7 @@ import {getStorage, ref, uploadBytes} from 'firebase/storage';
 import {checkImage, checkVideo} from './helperFunctions.js';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout';
+import '../styles/styles.css';
 import Icon from '@mdi/react';
 import { mdiClose, mdiFileImagePlusOutline, mdiUpload } from '@mdi/js';
 export default function Upload({user,loading}) {
@@ -53,12 +54,21 @@ export default function Upload({user,loading}) {
         } else {
             e.target.setCustomValidity('');
             if (type === 'vid') {
-            setVideoInfo((c)=> {
-                let copy = {...c};
-                copy.video = true;
-                copy.title = file.name.substring(0, 100);
-                return copy;
-            })
+                let sampleVideo = document.createElement('video');
+                sampleVideo.setAttribute('src', URL.createObjectURL(file));
+                sampleVideo.preload = 'metadata';
+                sampleVideo.onloadedmetadata = (e)=> {
+                    setVideoInfo((c) => {
+                        let copy = {...c};
+                        copy.duration = sampleVideo.duration;
+                        copy.video = true;
+                        copy.title = file.name.substring(0, 100);
+                        const nameSplit = file.name.split('.');
+                        copy.extension = nameSplit[nameSplit.length - 1];
+                        return copy;
+                        
+                    })
+                }
             } else {
                 console.log(file)
                 setVideoInfo((c) => {
@@ -88,7 +98,9 @@ export default function Upload({user,loading}) {
             title: videoInfo['title'],
             description: videoInfo['desc'],
             private: videoInfo['private'],
-            views: 0
+            duration: videoInfo['duration'],
+            views: 0,
+            extension: videoInfo['extension']
         }
         if (!vidInfo['description']) {
             vidInfo["description"] = "";
@@ -122,7 +134,7 @@ export default function Upload({user,loading}) {
 
 
 
-    return <Layout>
+    return <Layout pfp={user ? user.photoURL.split('=')[0] : ''}>
         <form style={{'display': 'none'}} id='formVideo'>
             <input type="file" name="video" id="video" required accept='video/*' onChange={(e) => {fileChange(e, 'vid')}} hidden/>
             <input type="file" name='thumbnail' id='thumbnail' required accept='image/*'  onChange={(e) => {fileChange(e, 'img')}} hidden></input>
@@ -203,7 +215,19 @@ export default function Upload({user,loading}) {
                         
                     </div>
                     <div className='right'>
-                        <div className='vid-preview'>OHIOO</div>
+                        <div className='vid-preview'>
+                            <div className='video-prev'>
+                                <video preload="auto" controls controlsList='nodownload'  width="100%" src={URL.createObjectURL(document.querySelector('#video').files[0])}></video>
+                            </div>
+                            <div className='info'>
+                                <p className='header'>
+                                    Filename
+                                </p>
+                                <p className='name'>
+                                    {document.querySelector('#video').files[0].name}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <footer>

@@ -40,4 +40,26 @@ function checkVideo(type, size) {
     return [true]
 }
 
-export {checkImage, checkVideo}
+function formatTime(time) {
+    console.log(time)
+    time = Math.round(time);
+    console.log(time)
+    //time = 1000
+    let hours = Math.floor(time/3600);
+    
+    time -= (hours * 3600);
+    console.log(time)
+    let minutes = Math.floor(time/60);
+    time -= (minutes * 60);
+    console.log(time)
+    let seconds = time;
+
+    if (hours > 0) {
+        return `${hours}:${minutes}:${seconds.toString().padStart(2, '0')}`
+    } else {
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+
+}
+export {checkImage, checkVideo, formatTime}
