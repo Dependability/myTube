@@ -17,10 +17,10 @@ function App() {
     <BrowserRouter>
     <Routes>
 
-      <Route path='/' element={<Home user={user}/>} ></Route>
+      <Route path='/' element={<Home user={user} loading={loading}/>} ></Route>
       <Route path='/layout' element={<Layout />} ></Route>
       <Route path='/upload' element={<Upload user={user} loading= {loading}/>}></Route>
-      <Route path='/sign-in' element={<SignUp user={user} ></SignUp>}> </Route>
+      <Route path='/sign-in' element={<SignUp user={user} loading= {loading} ></SignUp>}> </Route>
       <Route path='/watch/:vidid' element={<Video user={user} loading={loading} />} />
       <Route path='/liked' element={<Liked user={user} loading={loading} />} />
       <Route path='/channel/:channelid' element={<Channel user={user} loading={loading} />} />

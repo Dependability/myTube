@@ -30,7 +30,6 @@ function checkVideo(type, size) {
         'video/mp4'
     ];
     if (!(validTypes.includes(type))) {
-        console.log(type)
         return [false, "Invalid file type."];
     }
 
@@ -41,17 +40,13 @@ function checkVideo(type, size) {
 }
 
 function formatTime(time) {
-    console.log(time)
     time = Math.round(time);
-    console.log(time)
     //time = 1000
     let hours = Math.floor(time/3600);
     
     time -= (hours * 3600);
-    console.log(time)
     let minutes = Math.floor(time/60);
     time -= (minutes * 60);
-    console.log(time)
     let seconds = time;
 
     if (hours > 0) {

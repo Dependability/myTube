@@ -131,9 +131,12 @@ aside {
   transition: all 200ms linear;
 }
 
+aside.overlay
+
 aside, nav {
   z-index: 1;
 }
+
 
 .categories {
     position: fixed;
@@ -522,6 +525,7 @@ aside .line {
 }
 
 .view-page .frame {
+  background-color: black;
   border: 1px black solid;
   width: 1278px;
   height: 720px;
@@ -611,6 +615,7 @@ aside .line {
   padding: 10px 15px;
   align-items: center;
   background-color: #0f0f0f;
+  cursor: pointer;
   border-radius: 9999px;
 }
 
@@ -698,4 +703,158 @@ aside .line {
 
 [contentEditable=true]:empty:not(:focus):before {
   content: attr(data-text)
+}
+.channel-view .pfp {
+  width: 88px;
+  height: 88px;
+}
+.channel-view .header .inner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.channel-view .channel-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.channel-view .subscribeBtn {
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-weight:500;
+  
+  align-items: center;
+  background-color: #0f0f0f;
+  border-radius: 9999px;
+}
+.channel-view .channel-info .name {
+  color: #0f0f0f;
+  font-size: 24px;
+}
+
+.channel-view .selection-bar {
+  width: 80%;
+  margin: 1px auto 0;
+}
+
+.channel-view .selection {
+  padding: 15px 30px;
+  
+  border-bottom: 3px solid #0f0f0f;
+  
+  font-weight: 500;
+  font-size: 16px;
+  width: fit-content;
+}
+
+.channel-view .line {
+  border-bottom: 1px solid rgb(0,0,0,.05);
+}
+.channel-view .channel-info .subscribers {
+  color: #606060;
+  font-size: 14px;
+}
+.channel-view .header {
+  
+  width: 100%;
+}
+
+.channel-view .inner-header {
+  margin: 0 auto;
+  width: 80%;
+}
+.channel-videos {
+  width: 80%;
+  margin: 30px auto 0;
+  display: grid;
+  grid-gap: 18px;
+  justify-content: flex-start;
+  align-content: flex-start;
+  grid-template-columns: repeat(4, 1fr)
+}
+
+.subscribeBtn.subbed {
+  color: #0f0f0f !important;
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.channel-videos .video-child{
+  cursor: pointer;
+}
+.channel-videos .video-child .video-title{
+  margin-top: 5px;
+  font-weight: 500;
+  color:#0f0f0f;
+  font-size: 14px;
+  
+}
+.channel-videos .video-child .video-info {
+  margin-top: 5px;
+  color: #606060;
+  font-size: 12px;
+}
+.channel-videos .video-child img {
+  width: 100%;  
+  height: auto;
+  border-radius: 12px;
+}
+
+.channel-videos .video-child .img-wrap {
+  position: relative;
+}
+
+.video-child .img-wrap .time {
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  padding: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: .9;
+  position: absolute;
+  bottom: 9px;
+  right: 4px;
+  border-radius: 5px;
+}
+
+.comment {
+  width: 1278px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+
+}
+
+.comment .info{
+  display: flex;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.comment .name {
+  font-weight: 500;
+  
+}
+
+.comment .timeago {
+  color: #606060;
+}
+.comment .right {
+  
+  flex: 1;
+}
+
+.comment .text {
+  width: 100%;
+  margin-top: 4px;
+  font-size: 14px;
+  overflow: hidden;
+  overflow-wrap: anywhere;
 }

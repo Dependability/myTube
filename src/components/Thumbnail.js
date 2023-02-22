@@ -18,7 +18,7 @@ export default function Thumbnail({id, thumbnail, ownerID, date, title, views, d
     let navigate = useNavigate();
     useEffect(()=> {
 
-        
+        console.log(thumbnail)
         let download = getDownloadURL(ref(storage, `thumbnail/${thumbnail}`))
         let name = getDoc(doc(db, 'users',ownerID));
         download.then((url)=> {
@@ -26,7 +26,6 @@ export default function Thumbnail({id, thumbnail, ownerID, date, title, views, d
         })
 
         name.then((item) => {
-            console.log(item.data())
             setName(item.data().displayName);
             setAuthorPfp(item.data().photoURL)
         })
@@ -45,7 +44,7 @@ export default function Thumbnail({id, thumbnail, ownerID, date, title, views, d
         <div className='info'>
             <div className='left'>
             <div className='pfp' onClick={()=> {navigate(`/channel/${ownerID}`)}}>
-                <img src={authorpfp} alt=''></img>
+                <img src={authorpfp  + '=c-k-c0x00ffffff-no-rj'} alt=''></img>
             </div>
             </div>
             <div className='right'>

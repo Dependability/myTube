@@ -3,10 +3,23 @@ import {auth, provider, db} from '../Firebase';
 import {useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
 import {doc, getDoc, setDoc} from 'firebase/firestore';
+import { useEffect, useState } from 'react';
 
-function SignUp({user}) {
+function SignUp({user, loading}) {
 
     const navigate = useNavigate();
+    const [userStatus, setUserStatus] = useState(false);
+    useEffect(()=> {
+        if (!loading) {
+            if (user) {
+                setUserStatus(true);
+            } else {
+                setUserStatus(false);
+                console.log("Not signed in")
+                return
+            }
+        }
+    }, [loading])
 
     function signIn() {
     
@@ -36,8 +49,9 @@ function SignUp({user}) {
       }
     return <div>
         {
-            user ? <button onClick={() => {
+            userStatus ? <button onClick={() => {
                 signOut(auth).then(()=> {
+                    setUserStatus(false);
                     navigate('/sign-in');
 
                 })

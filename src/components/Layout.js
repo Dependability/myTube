@@ -7,10 +7,9 @@ import { useEffect } from 'react';
 import {db, storage} from '../Firebase';
 import {collection, getDocs} from 'firebase/firestore';
 
-function Layout({children, overlay, current,pfp}) {
+function Layout({children, current,pfp, uid}) {
     const navigate = useNavigate();
 
-    console.log(overlay)
     return <>
         <nav className='topBar'>
             <div className='left'>
@@ -34,7 +33,7 @@ function Layout({children, overlay, current,pfp}) {
             <div className='right'>
                 <Icon path={mdiVideoPlusOutline} size={1.1} className='over' onClick={()=> {navigate('/upload')}}/>
                 <div className='pfp'>
-                    <img src={pfp} alt='' />
+                    <img src={pfp + '=c-k-c0x00ffffff-no-rj'} alt='' />
                 </div>
             </div>
         </nav>
@@ -50,7 +49,7 @@ function Layout({children, overlay, current,pfp}) {
                         <Icon path={mdiThumbUpOutline} size={1.1} />
                         Liked videos
                     </div>
-                    <div className={'aside-but ' + (current === 'videos' ? 'selected' : '')}>
+                    <div className={'aside-but ' + (current === 'videos' ? 'selected' : '')} onClick={()=> navigate('/channel/' + uid)}>
                         <Icon path={mdiPlayBoxOutline} size={1.1} />
                         Your videos
                     </div>
@@ -58,8 +57,6 @@ function Layout({children, overlay, current,pfp}) {
                 </div>
             </aside>
             <div className='right'>
-            <div className='categories'>
-            </div>
             <div className='mainContent'>
                 {children}
             </div>

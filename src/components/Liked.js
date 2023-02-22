@@ -33,7 +33,7 @@ export default function Liked({user, loading}) {
                         console.log(date)
                         let obj = {
                             id: vid.id,
-                            thumbnail: `tn-${vid.id}.jpg`,
+                            thumbnail: `tn-${vid.id}.${vid.data().tbExt}`,
                             ownerID: vid.data().authorId,
                             date: date,
                             title: vid.data().title,
@@ -53,7 +53,7 @@ export default function Liked({user, loading}) {
     
 
 
-    return <Layout overlay={false} current='liked' pfp={user ? user.photoURL.split('=')[0] : ''}>
+    return <Layout overlay={false} current='liked' pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''}>
         <div className='videos'>
         {videos.map((elem, index)=> <Thumbnail id={elem.id} thumbnail={elem.thumbnail} ownerID={elem.ownerID} title={elem.title} date={elem.date} duration={elem.duration} views = {elem.views}key={index}/>)}
         </div>

@@ -74,6 +74,8 @@ export default function Upload({user,loading}) {
                 setVideoInfo((c) => {
                     let copy = {...c};
                     copy.thumbnail = true;
+                    const nameSplit = file.name.split('.');
+                    copy.tbExt = nameSplit[nameSplit.length - 1];
                     return copy;
                 })
 
@@ -100,7 +102,8 @@ export default function Upload({user,loading}) {
             private: videoInfo['private'],
             duration: videoInfo['duration'],
             views: 0,
-            extension: videoInfo['extension']
+            extension: videoInfo['extension'],
+            tbExt: videoInfo['tbExt']
         }
         if (!vidInfo['description']) {
             vidInfo["description"] = "";
@@ -134,7 +137,7 @@ export default function Upload({user,loading}) {
 
 
 
-    return <Layout pfp={user ? user.photoURL.split('=')[0] : ''}>
+    return <Layout pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''}>
         <form style={{'display': 'none'}} id='formVideo'>
             <input type="file" name="video" id="video" required accept='video/*' onChange={(e) => {fileChange(e, 'vid')}} hidden/>
             <input type="file" name='thumbnail' id='thumbnail' required accept='image/*'  onChange={(e) => {fileChange(e, 'img')}} hidden></input>
