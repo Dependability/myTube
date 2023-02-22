@@ -1,25 +1,14 @@
-import {signOut, signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
+import {signInWithPopup} from 'firebase/auth';
 import {auth, provider, db} from '../Firebase';
 import {useNavigate} from 'react-router-dom';
 import '../styles/styles.css';
 import {doc, getDoc, setDoc} from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import Icon from '@mdi/react';
+import {mdiAccountCircleOutline} from '@mdi/js'
 
-function SignUp({user, loading}) {
+function SignUp() {
 
     const navigate = useNavigate();
-    const [userStatus, setUserStatus] = useState(false);
-    useEffect(()=> {
-        if (!loading) {
-            if (user) {
-                setUserStatus(true);
-            } else {
-                setUserStatus(false);
-                console.log("Not signed in")
-                return
-            }
-        }
-    }, [loading])
 
     function signIn() {
     
@@ -47,21 +36,25 @@ function SignUp({user, loading}) {
           console.log(error.code, " ", error.message);
         })
       }
-    return <div>
-        {
-            userStatus ? <button onClick={() => {
-                signOut(auth).then(()=> {
-                    setUserStatus(false);
-                    navigate('/sign-in');
+    return <div className='signInButton' onClick={signIn}>
+                <Icon path={mdiAccountCircleOutline} />
+                <span>Sign in</span>
+            </div>
+    // <div>
+    //     {
+    //         userStatus ? <button onClick={() => {
+    //             signOut(auth).then(()=> {
+    //                 setUserStatus(false);
+    //                 navigate('/sign-in');
 
-                })
-            }}>Sign Out</button> : <button onClick={signIn}>Sign up</button>
+    //             })
+    //         }}>Sign Out</button> : <button onClick={signIn}>Sign up</button>
 
-        }
+    //     }
         
         
-        <a href='/'>Go back.</a>
-    </div>
+    //     <a href='/'>Go back.</a>
+    // </div>
 }
 
 export default SignUp

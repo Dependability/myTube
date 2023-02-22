@@ -1,13 +1,13 @@
 import '../styles/styles.css';
 import ytIcon from '../assets/youtubeicon.png';
 import Icon from '@mdi/react';
-import { mdiMenu, mdiMagnify, mdiVideoPlusOutline,mdiBellOutline,mdiHome,mdiThumbUpOutline,mdiPlayBoxOutline   } from '@mdi/js';
+import { mdiMenu, mdiMagnify, mdiVideoPlusOutline,mdiHome,mdiThumbUpOutline,mdiPlayBoxOutline, mdiAccountBoxOutline, mdiLogout, mdiAlert   } from '@mdi/js';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import {db, storage} from '../Firebase';
-import {collection, getDocs} from 'firebase/firestore';
+import {auth} from '../Firebase';
+import {signOut} from 'firebase/auth';
+import SignUp from './SignUp';
 
-function Layout({children, current,pfp, uid}) {
+function Layout({children, current,pfp, uid, name}) {
     const navigate = useNavigate();
 
     return <>
@@ -30,12 +30,16 @@ function Layout({children, current,pfp, uid}) {
                     </div>
                 </div>
             </div>
-            <div className='right'>
+            {uid ? <div className='right'>
                 <Icon path={mdiVideoPlusOutline} size={1.1} className='over' onClick={()=> {navigate('/upload')}}/>
-                <div className='pfp'>
+                <div className='pfp' onClick={()=> {
+                    document.querySelector('.fixedAccountInfo').classList.remove('hidden');
+                }}>
                     <img src={pfp + '=c-k-c0x00ffffff-no-rj'} alt='' />
                 </div>
-            </div>
+            </div> : <div className='right'>
+                <SignUp />
+            </div>}
         </nav>
         <main>
             <aside>
@@ -45,24 +49,56 @@ function Layout({children, current,pfp, uid}) {
                         Home
                     </div>
                     <div className='line'></div>
-                    <div className={'aside-but ' + (current === 'liked' ? 'selected' : '')} onClick={()=> navigate('/liked')}>                  
+                    {uid ? <div className={'aside-but ' + (current === 'liked' ? 'selected' : '')} onClick={()=> navigate('/liked')}>                  
                         <Icon path={mdiThumbUpOutline} size={1.1} />
                         Liked videos
-                    </div>
-                    <div className={'aside-but ' + (current === 'videos' ? 'selected' : '')} onClick={()=> navigate('/channel/' + uid)}>
+                    </div> : ''}
+                    
+                    {uid ? <div className={'aside-but ' + (current === 'videos' ? 'selected' : '')} onClick={()=> navigate('/channel/' + uid)}>
                         <Icon path={mdiPlayBoxOutline} size={1.1} />
                         Your videos
-                    </div>
+                    </div> : ''}
 
                 </div>
             </aside>
             <div className='right'>
             <div className='mainContent'>
-                {children}
+                {uid ? children : <div className='nouser'><Icon path={mdiAlert} color='red' /> Please sign in </div>}
             </div>
             </div>
 
         </main>
+        <div className='fixedAccountInfo hidden' onClick={(e)=> {
+            e.currentTarget.classList.add('hidden');
+        }}>
+            <div className='inner' onClick={(e)=> {e.stopPropagation()}}>
+                <div className='header'>
+                    <div className='pfp'>
+                        <img src={pfp + '=c-k-c0x00ffffff-no-rj'} alt='' />
+                    </div>
+                    <div className='name'>{name}</div>
+                </div>
+                <div className='next'>
+                    <div className='item' onClick={()=> {
+                        document.querySelector('.fixedAccountInfo').classList.add('hidden');
+                        navigate('/channel/' + uid)
+                    }}>
+                        <Icon path={mdiAccountBoxOutline}></Icon>
+                        <span>Your channel</span>
+                    </div>
+                    <div className='item' onClick={()=>{
+                        document.querySelector('.fixedAccountInfo').classList.add('hidden');
+                        signOut(auth).then(()=> {
+                            navigate('/');
+                            
+                        })
+                    }}>
+                        <Icon path={mdiLogout}></Icon>
+                        <span>Sign out</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         
     </>
 }

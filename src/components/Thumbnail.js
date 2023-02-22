@@ -7,8 +7,10 @@ import '../styles/styles.css';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import {formatTime} from './helperFunctions';
 import {useNavigate} from 'react-router-dom';
+import Icon from '@mdi/react';
+import {mdiLock} from '@mdi/js';
 dayjs.extend(relativeTime);
-export default function Thumbnail({id, thumbnail, ownerID, date, title, views, duration}) {
+export default function Thumbnail({id, thumbnail, ownerID, date, title, views, duration, privacy}) {
 
     
     let [downloadURL, setUrl] = useState("");
@@ -17,8 +19,6 @@ export default function Thumbnail({id, thumbnail, ownerID, date, title, views, d
     let timeString = dayjs().to(dayjs(date));
     let navigate = useNavigate();
     useEffect(()=> {
-
-        console.log(thumbnail)
         let download = getDownloadURL(ref(storage, `thumbnail/${thumbnail}`))
         let name = getDoc(doc(db, 'users',ownerID));
         download.then((url)=> {
@@ -30,17 +30,18 @@ export default function Thumbnail({id, thumbnail, ownerID, date, title, views, d
             setAuthorPfp(item.data().photoURL)
         })
 
-    }, [])
+    }, [thumbnail, ownerID])
 
     return <div className='video'>
-        <a>
+        <div >
         <div className='imgwrap'>
         <img onClick={()=> {navigate('/watch/' + id)}} src={downloadURL} width='336' height='189' alt='thumbnail'/>
             <div className='time'>
                 {formatTime(duration)}
             </div>
+            {privacy ? <div className='privateSymbol'><Icon path={mdiLock} color='#FFFFFF'></Icon></div> : ''}
         </div>
-        </a>
+        </div>
         <div className='info'>
             <div className='left'>
             <div className='pfp' onClick={()=> {navigate(`/channel/${ownerID}`)}}>

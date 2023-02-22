@@ -16,6 +16,7 @@ export default function Channel({loading, user}) {
 
         } else {
             if (user) {
+                console.log('user')
                 const authorRef = doc(db, 'users', channelid);
                 getDoc(authorRef).then(authorSnap => {
                 const authorData = authorSnap.data();
@@ -34,12 +35,15 @@ export default function Channel({loading, user}) {
                         return copy;
                     })
                 }); 
-                const videoQuery = query(collection(db, 'videos'), where('authorId', '==', channelid));
+                let videoQuery = query(collection(db, 'videos'), where('authorId', '==', channelid), where('private','==', false));
+                if (user.uid === channelid) {
+                    videoQuery = query(collection(db, 'videos'), where('authorId', '==', channelid));
+                }
                 getDocs(videoQuery).then(videoSnap => {
                     let videoArray = []
                     videoSnap.forEach((vid)=> {
                         const data = vid.data();
-                        videoArray.push({title: data.title, duration: data.duration, views: data.views, id: vid.id, thumbnail: `tn-${vid.id}.${data.tbExt}`,date: data.time.toDate()});                  
+                        videoArray.push({title: data.title, duration: data.duration, views: data.views, id: vid.id, thumbnail: `tn-${vid.id}.${data.tbExt}`,date: data.time.toDate(), private: data.private});                  
                         setChannelVideos(videoArray);
                             });
                         });
@@ -47,11 +51,11 @@ export default function Channel({loading, user}) {
 
 
             } else {
-                navigate('/sign-in')
+                navigate('/');
             }
         }
-    }, [loading, channelid, user, navigate])
-    return <Layout pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''}>
+    }, [loading, channelid, navigate, user])
+    return <Layout pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''} name={user ? user.displayName : ''} current={user.uid === channelid ? 'videos' :null}>
         <div className='channel-view'>
             <div className='header'>
                 <div className='inner-header'>
@@ -108,8 +112,8 @@ export default function Channel({loading, user}) {
             </div>
             <div className='line'></div>
             <div className='channel-videos'>
-                {channelVideos.map((video)=>{
-                    return <ChannelVideo video={video} date={video.date}/>
+                {channelVideos.map((video, i)=>{
+                    return <ChannelVideo video={video} date={video.date} key={i}/>
 
                     
                 })}

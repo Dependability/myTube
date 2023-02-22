@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
 import {storage, db}from '../Firebase';
 import { uuidv4 } from '@firebase/util';
-import {doc, setDoc, getFirestore, Timestamp} from 'firebase/firestore';
-import {getStorage, ref, uploadBytes} from 'firebase/storage';
+import {doc, setDoc, Timestamp} from 'firebase/firestore';
+import {ref, uploadBytes} from 'firebase/storage';
 import {checkImage, checkVideo} from './helperFunctions.js';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout';
@@ -23,12 +23,12 @@ export default function Upload({user,loading}) {
         } else {
             if (!user) {
                 console.log('no user...')
-                navigate('/sign-in')
+                navigate('/')
             } else {
                 console.log('user found: ', user.uid)
             }
         }
-    }, [loading]) 
+    }, [loading, user, navigate]) 
 
 
     
@@ -137,7 +137,7 @@ export default function Upload({user,loading}) {
 
 
 
-    return <Layout pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''}>
+    return <Layout pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''} name={user ? user.displayName : ''}>
         <form style={{'display': 'none'}} id='formVideo'>
             <input type="file" name="video" id="video" required accept='video/*' onChange={(e) => {fileChange(e, 'vid')}} hidden/>
             <input type="file" name='thumbnail' id='thumbnail' required accept='image/*'  onChange={(e) => {fileChange(e, 'img')}} hidden></input>
@@ -213,7 +213,36 @@ export default function Upload({user,loading}) {
                         <h3>Visibility</h3>
                         <p>Choose who can see your video.</p>
                         <div className='radio'>
-                            Yea WIP
+                            <div className='radioOption'> 
+                                <input type='radio' name='privacy' value='false' id='privacyOption1' defaultChecked onInput={(e)=> {
+                                  setVideoInfo((c) => {
+                                    let copy = {...c};
+                                    copy.private = false;
+                                    return copy;
+                                  })
+                                }}/>
+                                <div className='left'>
+                                    <label htmlFor='privacyOption1'>Public</label>
+                                    <p>Everyone can watch your video</p>
+                                </div>
+                            </div>
+                            <div className='radioOption'> 
+                                <input type='radio' name='privacy' value='true' id='privacyOption2' onInput={(e)=> {
+                                  setVideoInfo((c) => {
+                                    let copy = {...c};
+                                    copy.private = true;
+                                    return copy;
+                                  })
+                                }}/>
+                                <div className='left'>
+                                    <label htmlFor='privacyOption2'>Private</label>
+                                    <p>Only you can watch your video</p>
+                                </div>
+                            </div>
+
+                        
+                            
+
                         </div>
                         
                     </div>

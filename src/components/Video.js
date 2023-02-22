@@ -3,15 +3,15 @@ import { useNavigate, useParams  } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import '../styles/styles.css';
 import Icon from "@mdi/react";
-import { mdiLinkVariant, mdiShareOutline, mdiThumbDownOutline, mdiThumbUpOutline,mdiThumbUp, mdiCardsPlayingSpadeMultiple } from "@mdi/js";
+import { mdiShareOutline, mdiThumbDownOutline, mdiThumbUpOutline,mdiThumbUp} from "@mdi/js";
 import {db, storage} from '../Firebase';
-import { doc, getDoc, increment, updateDoc, setDoc, arrayUnion, Timestamp, arrayRemove, query } from "firebase/firestore";
+import { doc, getDoc, increment, updateDoc,arrayUnion, Timestamp, arrayRemove} from "firebase/firestore";
 import {ref, getDownloadURL} from 'firebase/storage';
 import Comment from './Comment'
 
 export default function Video({user, loading}) {
 
-    const [videoInfo, setVideoInfo] = useState({title: '' ,description: '', likes: 0, uploadDate: new Date(), views: 0, url:'', extension: 'mp4', viewed: false, liked: false, comments: []});
+    const [videoInfo, setVideoInfo] = useState({title: '' ,description: '', likes: 0, uploadDate: new Date(), views: 0, url:'', viewed: false, liked: false, comments: []});
     const [authorInfo, setAuthorInfo] = useState({displayName: "Author", subscribers: 0, pfp: '', authorId: ''});
     const [commentInfo, setCommentInfo] =useState([]);
     const [subscribed, setSubscribed] = useState(false);
@@ -30,7 +30,7 @@ export default function Video({user, loading}) {
         } else {
             if (!user) {
                 console.log('no user...')
-                navigate('/sign-in')
+                navigate('/')
             } else {
                 console.log('user found: ', user.uid);
                 const docRef = doc(db, "videos", vidid);
@@ -61,8 +61,7 @@ export default function Video({user, loading}) {
                 console.log(copy);
                 return copy;
             })
-            console.log(commentInfo)
-            let download = getDownloadURL(ref(storage, `video/vid-${vidid}.${videoInfo.extension}`));
+            let download = getDownloadURL(ref(storage, `video/vid-${vidid}.${videoData.extension}`));
             download.then((url)=> {
                 setVideoInfo((c) => {
                     let copy = {...c};
@@ -77,6 +76,9 @@ export default function Video({user, loading}) {
             const authorRef = doc(db, 'users', videoData.authorId);
             getDoc(authorRef).then(authorSnap => {
                 const authorData = authorSnap.data();
+                if (authorData.subscribers.includes(user.uid)) {
+                    setSubscribed(true)
+                }
                 setAuthorInfo((c) => {
                     let copy = {...c};
                     copy.authorId = videoData.authorId
@@ -90,14 +92,14 @@ export default function Video({user, loading}) {
                 
             }
         }
-    }, [loading, refresh]) 
+    }, [loading, refresh, user, navigate, vidid]) 
 
     useEffect(()=> {
         
 
     }, []);
 
-    return  <Layout pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''}>
+    return  <Layout pfp={user ? user.photoURL.split('=')[0] : ''} uid={user ? user.uid : ''} name={user ? user.displayName : ''}>
         <div className='view-page'>
             <div className='vid'>
             <div className='frame'>
@@ -243,8 +245,8 @@ export default function Video({user, loading}) {
                     
                 </div>
                 <div className='comments'>
-                    {commentInfo.map((comment) => {
-                        return <Comment comment={comment} />
+                    {commentInfo.map((comment, i) => {
+                        return <Comment comment={comment} key={i}/>
                     })}
                    
                 </div>
