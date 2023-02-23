@@ -2,7 +2,7 @@
   "name": "mytube",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dependability.github.io/myTube",
+  "homepage": "https://dependability.github.io/myTube/",
   "dependencies": {
     "@mdi/js": "^7.1.96",
     "@mdi/react": "^1.6.1",

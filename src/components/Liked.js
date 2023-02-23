@@ -19,7 +19,7 @@ export default function Liked({user, loading}) {
         } else {
             if (!user) {
                 console.log('no user...')
-                navigate('/')
+                navigate(process.env.PUBLIC_URL + '/')
             } else {
                 console.log('user found: ', user.uid);
 

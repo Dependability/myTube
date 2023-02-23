@@ -35,7 +35,7 @@ export default function Thumbnail({id, thumbnail, ownerID, date, title, views, d
     return <div className='video'>
         <div >
         <div className='imgwrap'>
-        <img onClick={()=> {navigate('/watch/' + id)}} src={downloadURL} width='336' height='189' alt='thumbnail'/>
+        <img onClick={()=> {navigate(process.env.PUBLIC_URL + '/watch/' + id)}} src={downloadURL} width='336' height='189' alt='thumbnail'/>
             <div className='time'>
                 {formatTime(duration)}
             </div>
@@ -44,13 +44,13 @@ export default function Thumbnail({id, thumbnail, ownerID, date, title, views, d
         </div>
         <div className='info'>
             <div className='left'>
-            <div className='pfp' onClick={()=> {navigate(`/channel/${ownerID}`)}}>
+            <div className='pfp' onClick={()=> {navigate(process.env.PUBLIC_URL + `/channel/${ownerID}`)}}>
                 <img src={authorpfp  + '=c-k-c0x00ffffff-no-rj'} alt=''></img>
             </div>
             </div>
             <div className='right'>
-            <h2 className='title' onClick={()=> {navigate('/watch/' + id)}}>{title}</h2>
-            <p className='author' onClick={()=> {navigate(`/channel/${ownerID}`)}}>{authorName}</p>
+            <h2 className='title' onClick={()=> {navigate(process.env.PUBLIC_URL + '/watch/' + id)}}>{title}</h2>
+            <p className='author' onClick={()=> {navigate(process.env.PUBLIC_URL + `/channel/${ownerID}`)}}>{authorName}</p>
             <p>{views} {views === 1? ' view' : ' views'} • {timeString}</p>
             </div>
         </div>

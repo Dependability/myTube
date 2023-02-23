@@ -16,7 +16,7 @@ function SignUp() {
             const ref = doc(db, 'users', result.user.uid)
             getDoc(ref).then((document) => {
                 if (document.exists()) {
-                    navigate('/');
+                    navigate(process.env.PUBLIC_URL + '/');
                     return
                 } else {
                     const photoURL = result.user.photoURL.split('=')[0];

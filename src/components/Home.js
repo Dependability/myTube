@@ -13,7 +13,7 @@ export default function Home({user, loading}) {
     const navigate = useNavigate();
     const [videos, setVideos] = useState([])
     useEffect(()=> {
-        navigate('/')
+        navigate(process.env.PUBLIC_URL + '/')
         if (loading) {
             console.log('loading....');
         } else {

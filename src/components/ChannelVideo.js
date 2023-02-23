@@ -21,12 +21,12 @@ export default function ChannelVideo({video, date}) {
     
     
     return <div className='video-child' >
-                    <div className="img-wrap" onClick={()=> {navigate('/watch/' + video.id)}}>
+                    <div className="img-wrap" onClick={()=> {navigate(process.env.PUBLIC_URL + '/watch/' + video.id)}}>
                     <img src={thumbnailURL} alt='' />
                     <div className='time'>{formatTime(video.duration)}</div>
                     {video.private ? <div className='privateSymbol'><Icon path={mdiLock} color='#FFFFFF'></Icon></div> : ''}
                     </div>
-                    <div className='video-title' onClick={()=> {navigate('/watch/' + video.id)}}>{video.title}</div>
+                    <div className='video-title' onClick={()=> {navigate(process.env.PUBLIC_URL + '/watch/' + video.id)}}>{video.title}</div>
                     <div className="video-info">{video.views} {video.views === 1 ? 'view' : 'views'} • {timeString}</div>
 
                 </div>

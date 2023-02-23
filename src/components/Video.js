@@ -30,7 +30,7 @@ export default function Video({user, loading}) {
         } else {
             if (!user) {
                 console.log('no user...')
-                navigate('/')
+                navigate(process.env.PUBLIC_URL + '/')
             } else {
                 console.log('user found: ', user.uid);
                 const docRef = doc(db, "videos", vidid);
@@ -123,11 +123,11 @@ export default function Video({user, loading}) {
             <div className='title'>{videoInfo.title}</div>
             <div className='info-bar'>
                 <div className='left'>
-                    <div className='pfp' onClick={()=> {navigate(`/channel/${authorInfo.authorId}`)}}>
+                    <div className='pfp' onClick={()=> {navigate(process.env.PUBLIC_URL + `/channel/${authorInfo.authorId}`)}}>
                         <img src={authorInfo.pfp + '=c-k-c0x00ffffff-no-rj'} alt=''></img>
                     </div>
                     <div className='author'>
-                        <div className='author-name' onClick={()=> {navigate(`/channel/${authorInfo.authorId}`)}}>{authorInfo.displayName}</div>
+                        <div className='author-name' onClick={()=> {navigate(process.env.PUBLIC_URL + `/channel/${authorInfo.authorId}`)}}>{authorInfo.displayName}</div>
                         <div className='subscriber-count'>{authorInfo.subscribers} subscriber{authorInfo.subscribers === 1 ? "" : "s"}</div>        
                     </div>
                     {user ? (user.uid !== authorInfo.authorId ? <div className={'subscribeBtn' + (subscribed ? ' subbed' : '')} onClick={()=>{  
@@ -216,7 +216,7 @@ export default function Video({user, loading}) {
             <div className='comment-wrapper'>
                 <div className='comment-count'>{commentInfo.length} {commentInfo.length === 1 ? "Comment" : "Comments" }</div>
                 <div className='comment-add'>
-                    <div className='pfp' onClick={()=> {navigate(`/channel/${user ? user.uid : ''}`)}}>
+                    <div className='pfp' onClick={()=> {navigate(process.env.PUBLIC_URL + `/channel/${user ? user.uid : ''}`)}}>
                         <img src={user ? user.photoURL.split('=')[0] + '=c-k-c0x00ffffff-no-rj' : ''} alt=''></img>
                     </div>
                     <div className='right'>

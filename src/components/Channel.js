@@ -21,7 +21,7 @@ export default function Channel({loading, user}) {
                 getDoc(authorRef).then(authorSnap => {
                 const authorData = authorSnap.data();
                 if (!authorData) {
-                    navigate('/');
+                    navigate(process.env.PUBLIC_URL + '/');
                     return
                 }
                 if (authorData.subscribers.includes(user.uid)) {
@@ -51,7 +51,7 @@ export default function Channel({loading, user}) {
 
 
             } else {
-                navigate('/');
+                navigate(process.env.PUBLIC_URL + '/');
             }
         }
     }, [loading, channelid, navigate, user])

@@ -17,7 +17,7 @@ function Layout({children, current,pfp, uid, name}) {
                     document.querySelector('main aside').classList.toggle('hide');
                     document.querySelector('.mainContent').classList.toggle('full');
                     }}/>
-                <div className='ytLogo' onClick={()=> {navigate('/')}}>
+                <div className='ytLogo' onClick={()=> {navigate(process.env.PUBLIC_URL + '/')}}>
                     <img src={ytIcon} alt=''></img>
                     MyTube
                 </div>
@@ -31,7 +31,7 @@ function Layout({children, current,pfp, uid, name}) {
                 </div>
             </div>
             {uid ? <div className='right'>
-                <Icon path={mdiVideoPlusOutline} size={1.1} className='over' onClick={()=> {navigate('/upload')}}/>
+                <Icon path={mdiVideoPlusOutline} size={1.1} className='over' onClick={()=> {navigate(process.env.PUBLIC_URL + '/upload')}}/>
                 <div className='pfp' onClick={()=> {
                     document.querySelector('.fixedAccountInfo').classList.remove('hidden');
                 }}>
@@ -44,17 +44,17 @@ function Layout({children, current,pfp, uid, name}) {
         <main>
             <aside>
                 <div className='top'>
-                    <div className={'aside-but ' + (current === 'home' ? 'selected' : '')} onClick={()=> navigate('/')}>
+                    <div className={'aside-but ' + (current === 'home' ? 'selected' : '')} onClick={()=> navigate(process.env.PUBLIC_URL + '/')}>
                         <Icon path={mdiHome} size={1.1} ></Icon>
                         Home
                     </div>
                     <div className='line'></div>
-                    {uid ? <div className={'aside-but ' + (current === 'liked' ? 'selected' : '')} onClick={()=> navigate('/liked')}>                  
+                    {uid ? <div className={'aside-but ' + (current === 'liked' ? 'selected' : '')} onClick={()=> navigate(process.env.PUBLIC_URL + '/liked')}>                  
                         <Icon path={mdiThumbUpOutline} size={1.1} />
                         Liked videos
                     </div> : ''}
                     
-                    {uid ? <div className={'aside-but ' + (current === 'videos' ? 'selected' : '')} onClick={()=> navigate('/channel/' + uid)}>
+                    {uid ? <div className={'aside-but ' + (current === 'videos' ? 'selected' : '')} onClick={()=> navigate(process.env.PUBLIC_URL + '/channel/' + uid)}>
                         <Icon path={mdiPlayBoxOutline} size={1.1} />
                         Your videos
                     </div> : ''}
@@ -81,7 +81,7 @@ function Layout({children, current,pfp, uid, name}) {
                 <div className='next'>
                     <div className='item' onClick={()=> {
                         document.querySelector('.fixedAccountInfo').classList.add('hidden');
-                        navigate('/channel/' + uid)
+                        navigate(process.env.PUBLIC_URL + '/channel/' + uid)
                     }}>
                         <Icon path={mdiAccountBoxOutline}></Icon>
                         <span>Your channel</span>
@@ -89,7 +89,7 @@ function Layout({children, current,pfp, uid, name}) {
                     <div className='item' onClick={()=>{
                         document.querySelector('.fixedAccountInfo').classList.add('hidden');
                         signOut(auth).then(()=> {
-                            navigate('/');
+                            navigate(process.env.PUBLIC_URL + '/');
                             
                         })
                     }}>

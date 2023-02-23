@@ -23,7 +23,7 @@ export default function Upload({user,loading}) {
         } else {
             if (!user) {
                 console.log('no user...')
-                navigate('/')
+                navigate(process.env.PUBLIC_URL + '/')
             } else {
                 console.log('user found: ', user.uid)
             }
@@ -147,7 +147,7 @@ export default function Upload({user,loading}) {
             {!videoInfo['video']? <div className='upload-vid'>
                 <header>
                     <h2>Upload video</h2>
-                    <Icon path={mdiClose} size ={1} onClick={()=>{navigate('/')}}/>
+                    <Icon path={mdiClose} size ={1} onClick={()=>{navigate(process.env.PUBLIC_URL + '/')}}/>
                 </header>
                 <div className='body'>
                     
@@ -168,7 +168,7 @@ export default function Upload({user,loading}) {
         <div className='upload-vid'>
                 <header>
                     <h2>{videoInfo["title"]}</h2>
-                    <Icon path={mdiClose} size ={1} onClick={()=>{navigate('/')}}/>
+                    <Icon path={mdiClose} size ={1} onClick={()=>{navigate(process.env.PUBLIC_URL + '/')}}/>
                 </header>
                 <div className='body-mod'>
                     <div className='left'>
