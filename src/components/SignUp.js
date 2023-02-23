@@ -11,7 +11,7 @@ function SignUp() {
     const navigate = useNavigate();
 
     function signIn() {
-    
+        console.log(auth, provider);
         signInWithPopup(auth, provider).then((result)=>{
             const ref = doc(db, 'users', result.user.uid)
             getDoc(ref).then((document) => {
