@@ -9,7 +9,6 @@ import Video from './components/Video'
 import Liked from './components/Liked';
 import Channel from './components/Channel'
 function App() {
-  console.log(process.env)
   
   const [user, loading] = useAuthState(realAuth)
   return (
