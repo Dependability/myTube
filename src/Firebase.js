@@ -5,14 +5,15 @@ import { getStorage } from 'firebase/storage';
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDkKDY4wuTImdzxsfNkqTJZnyqEG44-4wg",
-  authDomain: "mytube-49342.firebaseapp.com",
-  projectId: "mytube-49342",
-  storageBucket: "mytube-49342.appspot.com",
-  messagingSenderId: "139653095001",
-  appId: "1:139653095001:web:3554fdee4fb8fe97319b48",
-  measurementId: "G-8QX6WMWJQ4"
+  apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+  authDomain: process.env.REACT_APP_FIRE_BASE_AUTHDOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSTORAGEID,
+  appId: process.env.REACT_APP_FIREBASE_APPID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID 
 };
 
 // Initialize Firebase

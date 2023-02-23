@@ -72,8 +72,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ### TODO
 
-1. Add ability to view videos
-2. Add ability to view channels
-3. Add ability to like and comment
-4. Add ability to subscribe.
-5. Replicate YouTube css to best ability.
+1. View Subscriptions
+2. Share Button
